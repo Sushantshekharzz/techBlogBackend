@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
-
+var contact = require('./routes/contact')
 var login = require('./routes/login');
 var blog = require('./routes/blog')
 var signup = require('./routes/signup');
@@ -21,11 +21,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const sequelize = require('./sequelize');
 const User = require('./model/user')  
 const News = require('./model/blog')
+const Contact = require('./model/contact')
 
 
 // Synchronize models with the database
 sequelize.sync().then((data) => {
-  // console.log("data",data)
   console.log('Database synchronized');
 }).catch((error) => {
   console.error('Error synchronizing database:', error);
@@ -44,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/login', login);
+app.use('/contact',contact)
 app.use('/blog', blog)
 app.use('/signup', signup);
 
