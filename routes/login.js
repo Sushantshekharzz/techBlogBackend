@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 
 
 /* GET home page. */
-// const secretKey = "Sushant Project"
+const secretKey = "Sushant Project"
 router.post('/', async function (req, res, next) {
   const userName = req.body.userName;
   const password = req.body.password;
@@ -13,12 +13,14 @@ router.post('/', async function (req, res, next) {
     "UserName":userName,
     "Password"  : password
   }
+  console.log("data",data)
   try {
     const user = await User.findOne({ where: { username: userName, password: password } });
-    // const token  = jwt.sign(data,secretKey, {expiresIn:'1h'})
-    // console.log("token", token)
+    const token  = jwt.sign(data,secretKey, {expiresIn:'1h'})
+    console.log("token", token)
+    console.log("TTTTTTTTTTTTTTTTTTTtt")
     if (user) {
-      res.send({ 'message': "Sucessfully Login" , 'user':user})
+      res.send({ 'message': "Sucessfully Login" , 'user':user, 'token':token})
     }
     else {
       res.send({ 'message': "invalid password" })

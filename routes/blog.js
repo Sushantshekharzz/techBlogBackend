@@ -4,9 +4,12 @@ var User = require('../model/user');
 var Blog = require('../model/blog')
 const multer = require('multer');
 const path = require('path');
+const jwt = require('jsonwebtoken'); // Ensure jwt module is imported
+
 const fs = require('fs'); // Import the fs module for file system operations
 
 
+const secretKey = "Sushant Project"
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -21,9 +24,10 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage });
 
 
-  router.post('/', upload.single('image'), async (req, res) => {
+  router.post('/', upload.single('image'), verifying,async (req, res) => {
     try {
       const { category, title, shortDescription, longDescription, username } = req.body;
+      const header = req.headers.authorization.split(' ')[1]
       
       const imagePath = req.file.path; // Path to the uploaded image file
   
@@ -44,7 +48,9 @@ const storage = multer.diskStorage({
     }
   });
 
-router.get('/:username', async function (req,res){
+
+
+router.get('/:username', verifying,async function (req,res){
     const userName = req.params.username
     const blog = await Blog.findAll({ where: { username: userName} });
     res.send(blog)
@@ -70,7 +76,7 @@ router.get('/get/:id', async function (req,res){
 })
 
 
-router.put('/:id', upload.single('image'), async function (req, res) {
+router.put('/:id', upload.single('image'), verifying,async function (req, res) {
     try {
       const newData = req.body;
       const id = req.params.id;
@@ -109,7 +115,7 @@ router.put('/:id', upload.single('image'), async function (req, res) {
   });
   
   
-router.delete('/:index', async function (req,res){
+router.delete('/:index',verifying, async function (req,res){
 await Blog.destroy({
       where: {
         id: req.params.index,
@@ -119,5 +125,23 @@ await Blog.destroy({
     res.send("deleted successfully")
 
 })
+
+function verifying  (req,res,next){
+  const header = req.headers.authorization.split(' ')[1]
+  if(header!=undefined)
+    {
+      jwt.verify(header, secretKey, (err, auth) => {
+        if (err) {
+          res.status(403).json({ message: 'Token verification failed' });
+        }
+        else {
+            next();
+        }
+    })
+
+    }else{
+      res.status(403).json({ message: 'Token not provided' });
+    }
+}
 
 module.exports = router;
