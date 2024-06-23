@@ -19,18 +19,18 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //sequelize set up
 const sequelize = require('./sequelize');
-const User = require('./model/user')  
-const News = require('./model/blog')
-const Contact = require('./model/contact')
+
 
 
 // Synchronize models with the database
-sequelize.sync().then((data) => {
-  console.log('Database synchronized');
-}).catch((error) => {
-  console.error('Error synchronizing database:', error);
-});
-
+//to synchronize db
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connection to the database has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

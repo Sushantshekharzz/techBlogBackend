@@ -1,5 +1,5 @@
 var express = require('express');
-const Contact = require('../model/contact')
+const Contact = require('../models/contact')
 var router = express.Router();
  router.post('/', async function (req,res){
     const email = req.body.email

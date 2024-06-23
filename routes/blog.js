@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../model/user');
-var Blog = require('../model/blog')
+var User = require('../models/user');
+var Blog = require('../models/blog')
 const multer = require('multer');
 const path = require('path');
 const jwt = require('jsonwebtoken'); // Ensure jwt module is imported
