@@ -13,12 +13,9 @@ router.post('/', async function (req, res, next) {
     "UserName":userName,
     "Password"  : password
   }
-  console.log("data",data)
   try {
     const user = await User.findOne({ where: { username: userName, password: password } });
     const token  = jwt.sign(data,secretKey, {expiresIn:'1h'})
-    console.log("token", token)
-    console.log("TTTTTTTTTTTTTTTTTTTtt")
     if (user) {
       res.send({ 'message': "Sucessfully Login" , 'user':user, 'token':token})
     }

@@ -28,9 +28,11 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      username: {
-        type: Sequelize.TEXT,
-        allowNull: false
+      userId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        defaultValue: Sequelize.UUIDV4
+
       },
       createdAt: {
         allowNull: false,

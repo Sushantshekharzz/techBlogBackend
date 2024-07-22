@@ -24,8 +24,8 @@ const Blog = sequelize.define('Blog', {
     type: DataTypes.TEXT,
     allowNull: false
   },
-  username: {
-    type: DataTypes.TEXT,
+  userId: {
+    type: DataTypes.UUID,
     allowNull: false
   },
 });

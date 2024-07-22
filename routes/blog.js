@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
 
   router.post('/', upload.single('image'), verifying,async (req, res) => {
     try {
-      const { category, title, shortDescription, longDescription, username } = req.body;
+      const { category, title, shortDescription, longDescription, userId } = req.body;
       const header = req.headers.authorization.split(' ')[1]
       
       const imagePath = req.file.path; // Path to the uploaded image file
@@ -38,7 +38,7 @@ const storage = multer.diskStorage({
         shortDescription,
         longDescription,
         image: imagePath, // Save the file path in the database
-        username
+        userId
       });
   
       res.status(201).json(newBlog);
@@ -50,13 +50,10 @@ const storage = multer.diskStorage({
 
 
 
-router.get('/:username', verifying,async function (req,res){
-    const userName = req.params.username
-    const blog = await Blog.findAll({ where: { username: userName} });
+router.get('/:userId', verifying,async function (req,res){
+    const userId = req.params.userId
+    const blog = await Blog.findAll({ where: { userId: userId} });
     res.send(blog)
-
-
-
 })
 router.get('/', async function (req,res){
     const blog = await Blog.findAll();
@@ -65,7 +62,7 @@ router.get('/', async function (req,res){
 
 
 })
-router.get('/get/:id', async function (req,res){
+router.get('/getUpdateInfo/:id', async function (req,res){
     const id = req.params.id
     const blog = await Blog.findAll({ where: { id: id} });
 

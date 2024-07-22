@@ -2,16 +2,15 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn('Users', 'test', {
-      type: Sequelize.DataTypes.STRING,
+    await queryInterface.addColumn('Blogs', 'userId', {
+      type: Sequelize.UUID,
       allowNull: false,
-      defaultValue: 'default_value'
+      defaultValue: Sequelize.UUIDV4
       // Other options here
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeColumn('Users', 'test');
-    // Add logic for reverting the column addition
+    await queryInterface.removeColumn('Blogs', 'userId');
   }
 };

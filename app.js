@@ -8,6 +8,7 @@ const cors = require('cors');
 var contact = require('./routes/contact')
 var login = require('./routes/login');
 var blog = require('./routes/blog')
+var user = require('./routes/user')
 var signup = require('./routes/signup');
 
 var app = express();
@@ -46,6 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/login', login);
 app.use('/contact',contact)
 app.use('/blog', blog)
+app.use('/user',user)
 app.use('/signup', signup);
 
 // catch 404 and forward to error handler
